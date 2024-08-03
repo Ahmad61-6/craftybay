@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 class AppThemeData {
   static ThemeData lightThemeData = ThemeData(
-      primarySwatch:
-          MaterialColor(AppColors.primaryColor.value, AppColors.colorSwatch),
       progressIndicatorTheme:
           const ProgressIndicatorThemeData(color: AppColors.primaryColor),
       inputDecorationTheme: InputDecorationTheme(
@@ -33,5 +31,8 @@ class AppThemeData {
         backgroundColor: AppColors.primaryColor,
         foregroundColor: Colors.white,
         textStyle: const TextStyle(fontSize: 16, letterSpacing: 0.5),
-      )));
+      )),
+      textButtonTheme: TextButtonThemeData(
+          style:
+              TextButton.styleFrom(foregroundColor: AppColors.primaryColor)));
 }
