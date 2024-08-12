@@ -1,4 +1,4 @@
-import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -78,7 +78,7 @@ class CompleteProfileScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-                        Get.offAll(const VerifyEmailScreen());
+                        Get.offAll(const MainBottomNavBar());
                       },
                       child: const Text('Complete'))),
             ],
