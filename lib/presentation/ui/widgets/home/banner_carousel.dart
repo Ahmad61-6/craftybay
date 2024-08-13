@@ -37,7 +37,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
                     margin: const EdgeInsets.symmetric(horizontal: 1.0),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.amber),
+                        color: AppColors.primaryColor),
                     child: Text(
                       'text $i',
                       style: const TextStyle(fontSize: 16.0),
@@ -57,8 +57,8 @@ class _BannerCarouselState extends State<BannerCarousel> {
                 children: [
                   for (int i = 0; i < 5; i++)
                     Container(
-                      height: 14,
-                      width: 14,
+                      height: 12,
+                      width: 12,
                       margin: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                           color: i == index
@@ -67,7 +67,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
                           border: Border.all(
                               color: i == index
                                   ? AppColors.primaryColor
-                                  : Colors.grey),
+                                  : Colors.grey.shade400),
                           borderRadius: BorderRadius.circular(30)),
                     )
                 ],

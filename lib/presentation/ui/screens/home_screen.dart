@@ -1,5 +1,7 @@
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
+import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/banner_carousel.dart';
+import 'package:crafty_bay/presentation/ui/widgets/home/section_title.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/home/circle_icon_button.dart';
@@ -28,10 +30,39 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              const BannerCarousel()
+              const BannerCarousel(),
+              const SizedBox(
+                height: 16,
+              ),
+              SectionTitle(
+                title: 'All Categories',
+                onTapSeeAll: () {},
+              ),
+              categoryList,
+              SectionTitle(title: 'Popular', onTapSeeAll: () {})
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  SizedBox get categoryList {
+    return SizedBox(
+      height: 130,
+      child: ListView.separated(
+        primary: false,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return const CategoryItem();
+        },
+        separatorBuilder: (_, __) {
+          return const SizedBox(
+            width: 20,
+          );
+        },
       ),
     );
   }
