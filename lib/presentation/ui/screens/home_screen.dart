@@ -1,8 +1,11 @@
+import 'package:crafty_bay/presentation/ui/screens/categories_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/banner_carousel.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/section_title.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_cart_item.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../widgets/home/circle_icon_button.dart';
 
@@ -39,7 +42,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTapSeeAll: () {},
               ),
               categoryList,
-              SectionTitle(title: 'Popular', onTapSeeAll: () {})
+              SectionTitle(
+                  title: 'Popular',
+                  onTapSeeAll: () {
+                    Get.offAll(const CategoriesScreen());
+                  }),
+              productList,
+              const SizedBox(
+                width: 8,
+              ),
+              SectionTitle(
+                  title: 'Special',
+                  onTapSeeAll: () {
+                    Get.offAll(const CategoriesScreen());
+                  }),
+              productList,
+              const SizedBox(
+                width: 8,
+              ),
+              SectionTitle(
+                  title: 'New',
+                  onTapSeeAll: () {
+                    Get.offAll(const CategoriesScreen());
+                  }),
+              productList,
             ],
           ),
         ),
@@ -61,6 +87,26 @@ class _HomeScreenState extends State<HomeScreen> {
         separatorBuilder: (_, __) {
           return const SizedBox(
             width: 20,
+          );
+        },
+      ),
+    );
+  }
+
+  SizedBox get productList {
+    return SizedBox(
+      height: 190,
+      child: ListView.separated(
+        primary: false,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return const ProductCartItem();
+        },
+        separatorBuilder: (_, __) {
+          return const SizedBox(
+            width: 8,
           );
         },
       ),
