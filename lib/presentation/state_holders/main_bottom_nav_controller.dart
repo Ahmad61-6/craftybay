@@ -14,7 +14,7 @@ class MainBottomNavController extends GetxController {
     update();
   }
 
-  void backHome() {
+  void backToHome() {
     // this method returns to home screen
     changeIndex(0);
   }

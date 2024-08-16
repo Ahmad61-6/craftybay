@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/categories_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
@@ -39,7 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SectionTitle(
                 title: 'All Categories',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.find<MainBottomNavController>().changeIndex(1);
+                },
               ),
               categoryList,
               SectionTitle(
