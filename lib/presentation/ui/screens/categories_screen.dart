@@ -30,9 +30,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
           title: const Text(
             'Categories',
-            style: TextStyle(
-              fontSize: 18,
-            ),
           ),
         ),
         body: Padding(

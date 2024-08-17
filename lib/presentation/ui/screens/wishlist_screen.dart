@@ -30,9 +30,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
           ),
           title: const Text(
             'Wish List',
-            style: TextStyle(
-              fontSize: 18,
-            ),
           ),
         ),
         body: Padding(

@@ -33,6 +33,10 @@ class AppThemeData {
         textStyle: const TextStyle(fontSize: 16, letterSpacing: 0.5),
       )),
       textButtonTheme: TextButtonThemeData(
-          style:
-              TextButton.styleFrom(foregroundColor: AppColors.primaryColor)));
+          style: TextButton.styleFrom(foregroundColor: AppColors.primaryColor)),
+      appBarTheme: const AppBarTheme(
+        titleTextStyle: TextStyle(fontSize: 18, color: Colors.black),
+        elevation: 5,
+        backgroundColor: Colors.white,
+      ));
 }
