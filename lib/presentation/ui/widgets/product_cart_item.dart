@@ -93,7 +93,7 @@ class ProductCartItem extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   )
                 ],

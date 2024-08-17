@@ -12,6 +12,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  ValueNotifier<int> noOfItems = ValueNotifier(1);
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -33,7 +34,7 @@ class _CartScreenState extends State<CartScreen> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     Card(
@@ -60,6 +61,10 @@ class _CartScreenState extends State<CartScreen> {
                                           children: [
                                             Text(
                                               'New Year Special Shoe',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black54),
                                             ),
                                             Text('Color: Red, Size: X'),
                                           ],
@@ -72,8 +77,10 @@ class _CartScreenState extends State<CartScreen> {
                                     ],
                                   ),
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         '\$100',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -81,17 +88,69 @@ class _CartScreenState extends State<CartScreen> {
                                           color: AppColors.primaryColor,
                                         ),
                                       ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            color: AppColors.primaryColor,
-                                            child: Icon(
-                                              Icons.minimize,
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        ],
-                                      )
+                                      ValueListenableBuilder(
+                                          valueListenable: noOfItems,
+                                          builder: (context, value, _) {
+                                            return Row(
+                                              children: [
+                                                InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.remove,
+                                                      color: Colors.white,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                  onTap: () {},
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(6.0),
+                                                  child: const Text(
+                                                    '01',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.add,
+                                                      color: Colors.white,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                  onTap: () {},
+                                                ),
+                                              ],
+                                            );
+                                          })
                                     ],
                                   )
                                 ],
