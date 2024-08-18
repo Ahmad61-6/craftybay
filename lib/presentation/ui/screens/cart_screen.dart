@@ -1,6 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
-import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
+import 'package:crafty_bay/presentation/ui/widgets/carts/cart_product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +12,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  ValueNotifier<int> noOfItems = ValueNotifier(1);
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -33,136 +32,21 @@ class _CartScreenState extends State<CartScreen> {
         body: Column(
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                AssetsPath.shoe,
-                                width: 100,
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'New Year Special Shoe',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black54),
-                                            ),
-                                            Text('Color: Red, Size: X'),
-                                          ],
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.delete_outline_sharp),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        '\$100',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      ValueListenableBuilder(
-                                          valueListenable: noOfItems,
-                                          builder: (context, value, _) {
-                                            return Row(
-                                              children: [
-                                                InkWell(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3),
-                                                    ),
-                                                    child: const Icon(
-                                                      Icons.remove,
-                                                      color: Colors.white,
-                                                      size: 16,
-                                                    ),
-                                                  ),
-                                                  onTap: () {},
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(6.0),
-                                                  child: const Text(
-                                                    '01',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black54,
-                                                    ),
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3),
-                                                    ),
-                                                    child: const Icon(
-                                                      Icons.add,
-                                                      color: Colors.white,
-                                                      size: 16,
-                                                    ),
-                                                  ),
-                                                  onTap: () {},
-                                                ),
-                                              ],
-                                            );
-                                          })
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+              child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          CartProductItem(),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(
+                        height: 8,
+                      ),
+                  itemCount: 4),
             ),
             totalPriceAndCheckoutSection,
           ],
