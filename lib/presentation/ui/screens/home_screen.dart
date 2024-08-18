@@ -5,7 +5,7 @@ import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/banner_carousel.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/section_title.dart';
-import 'package:crafty_bay/presentation/ui/widgets/product_cart_item.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_card_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
-          return const ProductCartItem();
+          return const ProductCardItem();
         },
         separatorBuilder: (_, __) {
           return const SizedBox(

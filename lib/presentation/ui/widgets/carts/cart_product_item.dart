@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
+import 'package:crafty_bay/presentation/ui/widgets/custom_product_item_count.dart';
 import 'package:flutter/material.dart';
 
 class CartProductItem extends StatefulWidget {
@@ -12,8 +13,6 @@ class CartProductItem extends StatefulWidget {
 }
 
 class _CartProductItemState extends State<CartProductItem> {
-  ValueNotifier<int> noOfItems = ValueNotifier(1);
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -83,63 +82,7 @@ class _CartProductItemState extends State<CartProductItem> {
                           color: AppColors.primaryColor,
                         ),
                       ),
-                      ValueListenableBuilder<int>(
-                          valueListenable: noOfItems,
-                          builder: (context, value, _) {
-                            return Row(
-                              children: [
-                                InkWell(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(3),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: const Icon(
-                                      Icons.remove,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    if (value > 1) {
-                                      noOfItems.value = value - 1;
-                                    }
-                                  },
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Text(
-                                    '${noOfItems.value}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(3),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: const Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    noOfItems.value = value + 1;
-                                  },
-                                ),
-                              ],
-                            );
-                          })
+                      CustomProductItemCount()
                     ],
                   )
                 ],

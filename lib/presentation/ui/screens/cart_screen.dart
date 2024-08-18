@@ -35,7 +35,7 @@ class _CartScreenState extends State<CartScreen> {
               child: ListView.separated(
                   itemBuilder: (context, index) {
                     return const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Column(
                         children: [
                           CartProductItem(),
@@ -44,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
                     );
                   },
                   separatorBuilder: (_, __) => const SizedBox(
-                        height: 8,
+                        height: 4,
                       ),
                   itemCount: 4),
             ),

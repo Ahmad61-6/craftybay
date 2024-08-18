@@ -1,5 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
-import 'package:crafty_bay/presentation/ui/widgets/product_cart_item.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_card_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -42,7 +42,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   crossAxisSpacing: 8,
                   childAspectRatio: 0.98),
               itemBuilder: (context, index) {
-                return const FittedBox(child: ProductCartItem());
+                return const FittedBox(child: ProductCardItem());
               }),
         ),
       ),
