@@ -1,7 +1,9 @@
 import 'package:crafty_bay/presentation/ui/screens/home_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/custom_product_item_count.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_details/color_selector.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_details/product_image_carousel.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_details/size_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +15,15 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  List<Color> colors = [
+    Colors.purple,
+    Colors.amber,
+    Colors.grey,
+    AppColors.primaryColor,
+    Colors.brown
+  ];
+  List<String> sizes = ['X', 'XL', '2L', 'L'];
+  Color _selectedColor = Colors.purple;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,73 +39,130 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Column(
-              children: [
-                const ProductImageCarousel(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Happy New Year Special Deal'),
-                          CustomProductItemCount(),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            size: 20,
-                            color: Colors.amber,
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            '4.8',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black45),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Review',
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ProductImageCarousel(),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Happy New Year Special Deal\nSave 30%',
                               style: TextStyle(
-                                color: AppColors.primaryColor,
                                 fontSize: 18,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Container(
-                            height: 28,
-                            width: 28,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.circular(6),
+                            CustomProductItemCount(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              size: 20,
+                              color: Colors.amber,
                             ),
-                            child: Icon(
-                              Icons.favorite_outline,
-                              color: Colors.white,
-                              size: 18,
+                            const SizedBox(
+                              width: 2,
                             ),
-                          ),
-                        ],
-                      ),
-                      const Text('Color')
-                    ],
+                            const Text(
+                              '4.8',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black45),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Review',
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Container(
+                              height: 28,
+                              width: 28,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: const Icon(
+                                Icons.favorite_outline,
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Text(
+                          'Color',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        ColorSelector(
+                            colors: colors,
+                            onChange: (selectedColor) {
+                              _selectedColor = selectedColor;
+                            }),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        const Text(
+                          'Size',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        SizeSelector(
+                          sizes: sizes,
+                          onChange: (selectedSize) {},
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        const Text(
+                          'Description',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54),
+                        ),
+                        Text(
+                          'Agile is an approach to project management that centers around incremental and iterative steps to completing projects. '
+                          'The incremental parts of a project are carried out in short-term development cycles.'
+                          ' The approach prioritizes quick delivery, adapting to change, and collaboration rather than top-down management and following a set plan.',
+                          style: TextStyle(
+                              fontSize: 12, color: Colors.grey.shade600),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           priceAndAddToCartSection,
