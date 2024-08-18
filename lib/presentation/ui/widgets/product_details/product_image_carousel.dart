@@ -22,7 +22,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            height: widget.height ?? 220.0,
+            height: widget.height ?? 240.0,
             onPageChanged: (index, reason) {
               _currentIndex.value = index;
             },
