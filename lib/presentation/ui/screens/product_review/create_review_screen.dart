@@ -83,14 +83,16 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        _clearFields();
-                        if (mounted) {
-                          ReviewResponse reviews = ReviewResponse(
-                              _firstNameTEController.text.trim(),
-                              _lastNameTEController.text,
-                              _reviewDescriptionTEController.text);
-                          controller.addReview(reviews);
-                          Navigator.pop(context);
+                        if (_formKey.currentState!.validate()) {
+                          _clearFields();
+                          if (mounted) {
+                            ReviewResponse reviews = ReviewResponse(
+                                _firstNameTEController.text.trim(),
+                                _lastNameTEController.text,
+                                _reviewDescriptionTEController.text);
+                            controller.addReview(reviews);
+                            Navigator.pop(context);
+                          }
                         }
                       },
                       child: const Text('Submit'),

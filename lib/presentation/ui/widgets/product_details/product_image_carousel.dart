@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
+import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 
 class ProductImageCarousel extends StatefulWidget {
@@ -34,9 +35,11 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                 return Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(color: Colors.grey),
-                    child: Text(
-                      'text $i',
-                      style: const TextStyle(fontSize: 16.0),
+                    child: Center(
+                      child: Image.asset(
+                        AssetsPath.shoe,
+                        width: 200,
+                      ),
                     ));
               },
             );

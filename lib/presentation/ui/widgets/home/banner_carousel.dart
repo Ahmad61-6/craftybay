@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
+import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 
 class BannerCarousel extends StatefulWidget {
@@ -38,9 +39,11 @@ class _BannerCarouselState extends State<BannerCarousel> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: AppColors.primaryColor),
-                    child: Text(
-                      'text $i',
-                      style: const TextStyle(fontSize: 16.0),
+                    child: Center(
+                      child: Image.asset(
+                        AssetsPath.shoe,
+                        height: 100,
+                      ),
                     ));
               },
             );

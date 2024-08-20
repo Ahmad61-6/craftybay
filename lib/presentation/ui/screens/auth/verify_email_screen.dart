@@ -3,8 +3,17 @@ import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifyEmailScreen extends StatelessWidget {
+class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({super.key});
+
+  @override
+  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
+}
+
+class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+  final _emailTEController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -12,46 +21,67 @@ class VerifyEmailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 160,
-              ),
-              const AppLogo(
-                height: 80,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text('Welcome back',
-                  style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(
-                height: 4,
-              ),
-              Text(
-                'Please enter your email address ',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Email Address'),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Get.to(const VerifyOTPScreen());
-                      },
-                      child: const Text('Next'))),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 160,
+                ),
+                const AppLogo(
+                  height: 80,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Text('Welcome back',
+                    style: Theme.of(context).textTheme.titleLarge),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  'Please enter your email address ',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  controller: _emailTEController,
+                  decoration: const InputDecoration(hintText: 'Email Address'),
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'Please enter a Email address';
+                    } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                        .hasMatch(value!)) {
+                      return 'Please enter a valid email address';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _clearTextForm();
+                            Get.to(const VerifyOTPScreen());
+                          }
+                        },
+                        child: const Text('Next'))),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _clearTextForm() {
+    _emailTEController.clear();
   }
 }
