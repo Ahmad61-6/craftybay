@@ -19,7 +19,8 @@ class NetworkCaller {
         return ResponseData(
             isSuccess: false,
             statusCode: response.statusCode,
-            responseData: decodeResponse);
+            responseData: decodeResponse,
+            errorMessage: decodeResponse['data'] ?? 'Something went wrong');
       }
     } else {
       return ResponseData(
@@ -42,7 +43,8 @@ class NetworkCaller {
         return ResponseData(
             isSuccess: false,
             statusCode: response.statusCode,
-            responseData: decodeResponse);
+            responseData: decodeResponse,
+            errorMessage: decodeResponse['data'] ?? 'Something went wrong');
       }
     } else {
       return ResponseData(
