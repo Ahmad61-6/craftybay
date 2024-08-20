@@ -7,7 +7,7 @@ class SendEmailOtpController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
-  final String _errorMessage = '';
+  String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
   Future<bool> sendOtpToEmail(String email) async {
@@ -16,9 +16,13 @@ class SendEmailOtpController extends GetxController {
 
     final ResponseData response =
         await NetworkCaller().postRequest(Urls.sendEmailOtp(email));
+    _inProgress = false;
     if (response.isSuccess) {
+      update();
       return true;
     } else {
+      _errorMessage = response.errorMessage;
+      update();
       return false;
     }
   }

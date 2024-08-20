@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/send_email_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_otp_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
@@ -63,16 +64,36 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _clearTextForm();
-                            Get.to(const VerifyOTPScreen());
-                          }
-                        },
-                        child: const Text('Next'))),
+                GetBuilder<SendEmailOtpController>(builder: (controller) {
+                  return SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                _clearTextForm();
+                                final bool result =
+                                    await controller.sendOtpToEmail(
+                                        _emailTEController.text.trim());
+                                if (result) {
+                                  Get.to(() => const VerifyOTPScreen());
+                                } else {
+                                  Get.showSnackbar(GetSnackBar(
+                                    title: 'Send OTP failed!',
+                                    message: controller.errorMessage,
+                                    duration: const Duration(seconds: 3),
+                                    snackPosition: SnackPosition.TOP,
+                                  ));
+                                }
+                              }
+                            },
+                            child: const Text('Next')),
+                      ));
+                }),
               ],
             ),
           ),
