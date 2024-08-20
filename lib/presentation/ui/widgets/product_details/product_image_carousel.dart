@@ -33,7 +33,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
               builder: (BuildContext context) {
                 return Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: Colors.grey),
+                    decoration: const BoxDecoration(color: Colors.grey),
                     child: Text(
                       'text $i',
                       style: const TextStyle(fontSize: 16.0),

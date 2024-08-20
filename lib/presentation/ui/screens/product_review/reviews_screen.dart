@@ -1,5 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/create_review_controller.dart';
-import 'package:crafty_bay/presentation/ui/screens/create_review_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/product_review/create_review_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,11 +12,11 @@ class ReviewsScreen extends StatefulWidget {
 }
 
 class _ReviewsScreenState extends State<ReviewsScreen> {
-  CreateReviewController controller = Get.find<CreateReviewController>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Get.find<CreateReviewController>().reviewResponse;
   }
 
   @override
@@ -32,15 +32,17 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return reviewsScreenBody(index);
-                  },
-                  separatorBuilder: (_, __) {
-                    return const SizedBox(
-                      height: 4,
-                    );
-                  },
-                  itemCount: controller.reviewDetails.length),
+                itemBuilder: (context, index) {
+                  return reviewsScreenBody(index);
+                },
+                separatorBuilder: (_, __) {
+                  return const SizedBox(
+                    height: 4,
+                  );
+                },
+                itemCount:
+                    Get.find<CreateReviewController>().reviewResponse.length,
+              ),
             ),
           ),
           totalReviewAndCreateReview
@@ -113,7 +115,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                       width: 6,
                     ),
                     Text(
-                      controller.reviewDetails[index].firstName,
+                      Get.find<CreateReviewController>()
+                          .reviewResponse[index]
+                          .firstName,
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -123,7 +127,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                       width: 4,
                     ),
                     Text(
-                      controller.reviewDetails[index].lastName,
+                      Get.find<CreateReviewController>()
+                          .reviewResponse[index]
+                          .lastName,
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -135,7 +141,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                   height: 8,
                 ),
                 Text(
-                  controller.reviewDetails[index].reviewDescription,
+                  Get.find<CreateReviewController>()
+                      .reviewResponse[index]
+                      .reviewDescription,
                   style: TextStyle(color: Colors.grey.shade500, fontSize: 14),
                 ),
               ],

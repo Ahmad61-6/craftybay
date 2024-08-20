@@ -1,4 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/create_review_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/product_review/review_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +16,6 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
   final TextEditingController _reviewDescriptionTEController =
       TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final CreateReviewController _reviewController =
-      Get.find<CreateReviewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,26 +78,25 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
                 const SizedBox(
                   height: 12,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        final response = await _reviewController.createReview(
-                            _firstNameTEController.text.trim(),
-                            _lastNameTEController.text.trim(),
-                            _reviewDescriptionTEController.text.trim());
-                        if (response) {
-                          _clearFields();
-                          if (mounted) {
-                            Get.back();
-                          }
+                GetBuilder<CreateReviewController>(builder: (controller) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _clearFields();
+                        if (mounted) {
+                          ReviewResponse reviews = ReviewResponse(
+                              _firstNameTEController.text.trim(),
+                              _lastNameTEController.text,
+                              _reviewDescriptionTEController.text);
+                          controller.addReview(reviews);
+                          Navigator.pop(context);
                         }
-                      }
-                    },
-                    child: const Text('Submit'),
-                  ),
-                ),
+                      },
+                      child: const Text('Submit'),
+                    ),
+                  );
+                }),
               ],
             ),
           ),
@@ -120,12 +118,4 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
     _lastNameTEController.dispose();
     super.dispose();
   }
-}
-
-class ReviewDetails {
-  String firstName;
-  String lastName;
-  String reviewDescription;
-
-  ReviewDetails(this.firstName, this.lastName, this.reviewDescription);
 }
