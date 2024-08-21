@@ -13,8 +13,6 @@ class VerifyOTPScreen extends StatefulWidget {
 }
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
-  String duration = const Duration(seconds: 120).toString();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,13 +78,13 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 height: 30,
               ),
               RichText(
-                text: TextSpan(
-                    style: const TextStyle(color: Colors.grey),
+                text: const TextSpan(
+                    style: TextStyle(color: Colors.grey),
                     children: [
-                      const TextSpan(text: 'This code will expire in '),
+                      TextSpan(text: 'This code will expire in '),
                       TextSpan(
-                          text: duration,
-                          style: const TextStyle(
+                          text: '120',
+                          style: TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.w600)),
                     ]),
