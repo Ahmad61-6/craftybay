@@ -75,10 +75,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                _clearTextForm();
                                 final bool result =
                                     await controller.sendOtpToEmail(
                                         _emailTEController.text.trim());
+                                _clearTextForm();
                                 if (result) {
                                   Get.to(() => const VerifyOTPScreen());
                                 } else {
@@ -104,5 +104,11 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   void _clearTextForm() {
     _emailTEController.clear();
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    super.dispose();
   }
 }

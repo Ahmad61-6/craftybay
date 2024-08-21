@@ -5,8 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyOTPScreen extends StatelessWidget {
+class VerifyOTPScreen extends StatefulWidget {
   const VerifyOTPScreen({super.key});
+
+  @override
+  State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
+}
+
+class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
+  String duration = const Duration(seconds: 120).toString();
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +80,13 @@ class VerifyOTPScreen extends StatelessWidget {
                 height: 30,
               ),
               RichText(
-                text: const TextSpan(
-                    style: TextStyle(color: Colors.grey),
+                text: TextSpan(
+                    style: const TextStyle(color: Colors.grey),
                     children: [
-                      TextSpan(text: 'This code will expire in '),
+                      const TextSpan(text: 'This code will expire in '),
                       TextSpan(
-                          text: '120s',
-                          style: TextStyle(
+                          text: duration,
+                          style: const TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.w600)),
                     ]),

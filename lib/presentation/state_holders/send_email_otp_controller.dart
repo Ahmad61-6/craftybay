@@ -10,12 +10,12 @@ class SendEmailOtpController extends GetxController {
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
-  Future<bool> sendOtpToEmail(String email) async {
+  Future<bool> sendOtpToEmail(email) async {
     _inProgress = true;
     update();
 
     final ResponseData response =
-        await NetworkCaller().postRequest(Urls.sendEmailOtp(email));
+        await NetworkCaller().getRequest(Urls.sendEmailOtp(email));
     _inProgress = false;
     if (response.isSuccess) {
       update();
