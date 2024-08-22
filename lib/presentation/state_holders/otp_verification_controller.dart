@@ -3,25 +3,26 @@ import 'package:crafty_bay/data/service/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
-class SendEmailOtpController extends GetxController {
+class OtpVerificationController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
-  Future<bool> sendOtpToEmail(email) async {
+  Future<bool> verifyOtp(email, otp) async {
     _inProgress = true;
     update();
     final ResponseData response =
-        await NetworkCaller().getRequest(Urls.sendEmailOtp(email));
+        await NetworkCaller().getRequest(Urls.verifyOtp(email, otp));
     _inProgress = false;
     if (response.isSuccess) {
+      final token = response.responseData['data'];
+      //TODO : save to local cache
       update();
       return true;
     } else {
       _errorMessage = response.errorMessage;
-      update();
       return false;
     }
   }
