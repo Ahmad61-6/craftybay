@@ -1,6 +1,7 @@
 import 'package:crafty_bay/presentation/state_holders/send_email_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_otp_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -69,16 +70,13 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                       width: double.infinity,
                       child: Visibility(
                         visible: controller.inProgress == false,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        replacement: const CenterCircularProgressIndicator(),
                         child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 final bool result =
                                     await controller.sendOtpToEmail(
                                         _emailTEController.text.trim());
-                                _clearTextForm();
                                 if (result) {
                                   Get.to(
                                     () => VerifyOTPScreen(
@@ -91,6 +89,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                     message: controller.errorMessage,
                                     duration: const Duration(seconds: 3),
                                     snackPosition: SnackPosition.TOP,
+                                    isDismissible: true,
+                                    backgroundColor: Colors.redAccent,
                                   ));
                                 }
                               }
@@ -104,10 +104,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         ),
       ),
     );
-  }
-
-  void _clearTextForm() {
-    _emailTEController.clear();
   }
 
   @override

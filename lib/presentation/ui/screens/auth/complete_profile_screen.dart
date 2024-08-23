@@ -3,8 +3,27 @@ import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CompleteProfileScreen extends StatelessWidget {
+class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
+
+  @override
+  State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
+}
+
+class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
+  final _firstNameTEController = TextEditingController();
+  final _lastNameTEController = TextEditingController();
+  final _mobileNumberTEController = TextEditingController();
+  final _shippingAddressTEController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String? formValidator(String? value) {
+    if (value?.trim().isEmpty ?? true) {
+      return 'This field is required';
+    } else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +57,8 @@ class CompleteProfileScreen extends StatelessWidget {
               TextFormField(
                 textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(hintText: 'First Name'),
+                controller: _firstNameTEController,
+                validator: formValidator,
               ),
               const SizedBox(
                 height: 16,
@@ -45,6 +66,8 @@ class CompleteProfileScreen extends StatelessWidget {
               TextFormField(
                 textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(hintText: 'Last Name'),
+                controller: _lastNameTEController,
+                validator: formValidator,
               ),
               const SizedBox(
                 height: 16,
@@ -53,6 +76,8 @@ class CompleteProfileScreen extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(hintText: 'Mobile'),
+                controller: _mobileNumberTEController,
+                validator: formValidator,
               ),
               const SizedBox(
                 height: 16,
@@ -70,6 +95,8 @@ class CompleteProfileScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'Shipping Address',
                 ),
+                controller: _shippingAddressTEController,
+                validator: formValidator,
               ),
               const SizedBox(
                 height: 24,
@@ -78,7 +105,7 @@ class CompleteProfileScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-                        Get.offAll(const MainBottomNavBar());
+                        Get.offAll(const MainBottomNavBarScreen());
                       },
                       child: const Text('Complete'))),
             ],

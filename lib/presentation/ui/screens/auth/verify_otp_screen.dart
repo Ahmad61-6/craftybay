@@ -49,6 +49,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                   height: 24,
                 ),
                 PinCodeTextField(
+                  textInputAction: TextInputAction.next,
                   controller: _otpTEController,
                   length: 4,
                   obscureText: false,
@@ -70,6 +71,14 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                   enableActiveFill: true,
                   onCompleted: (v) {},
                   appContext: context,
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'PIN field in empty!';
+                    } else if (value!.length < 4) {
+                      return 'The PIN must have 4 digits.';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 16,
@@ -86,13 +95,18 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             bool result = await controller.verifyOtp(
-                                widget.email, _otpTEController.text.trim());
+                                widget.email, _otpTEController.text);
                             if (result) {
                               Get.to(() => const CompleteProfileScreen());
                             } else {
                               Get.showSnackbar(GetSnackBar(
-                                title: 'OTP verification field',
+                                title: 'OTP verification failed!',
                                 message: controller.errorMessage,
+                                duration: const Duration(seconds: 3),
+                                snackPosition: SnackPosition.TOP,
+                                barBlur: 1.0,
+                                backgroundColor: Colors.redAccent,
+                                isDismissible: true,
                               ));
                             }
                           }
