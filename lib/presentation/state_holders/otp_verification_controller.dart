@@ -14,6 +14,9 @@ class OtpVerificationController extends GetxController {
   bool _shouldNavigateToCompleteProfile = true;
   bool get shouldNavigateToCompleteProfile => _shouldNavigateToCompleteProfile;
 
+  String _token = '';
+  String get token => _token;
+
   Future<bool> verifyOtp(email, otp) async {
     _inProgress = true;
     update();
