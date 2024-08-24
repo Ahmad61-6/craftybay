@@ -13,6 +13,7 @@ class NetworkCaller {
     });
     log(response.statusCode.toString());
     log(response.body.toString());
+    log(token.toString());
     if (response.statusCode == 200) {
       final decodeResponse = jsonDecode(response.body);
       if (decodeResponse['msg'] == 'success') {
@@ -45,6 +46,7 @@ class NetworkCaller {
         });
     log(response.statusCode.toString());
     log(response.body.toString());
+    log(token.toString());
     if (response.statusCode == 200) {
       final decodeResponse = jsonDecode(response.body);
       if (decodeResponse['msg'] == 'success') {
