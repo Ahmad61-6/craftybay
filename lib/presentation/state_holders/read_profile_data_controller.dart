@@ -24,7 +24,7 @@ class ReadProfileDataController extends GetxController {
         await NetworkCaller().getRequest(Urls.readProfileData, token: token);
     _inProgress = false;
     if (response.isSuccess) {
-      if (response.responseData['data'] == null) {
+      if (response.responseData['data'].isEmpty) {
         _isProfileCompleted = false;
       } else {
         _profile = Profile.fromJson(response.responseData['data'][0]);

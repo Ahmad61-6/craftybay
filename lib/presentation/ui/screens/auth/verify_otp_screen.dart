@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/otp_verification_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
@@ -94,10 +95,15 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            bool result = await controller.verifyOtp(
+                            bool response = await controller.verifyOtp(
                                 widget.email, _otpTEController.text);
-                            if (result) {
-                              Get.to(() => const CompleteProfileScreen());
+                            if (response) {
+                              if (controller.shouldNavigateToCompleteProfile) {
+                                Get.to(() => const CompleteProfileScreen());
+                              } else {
+                                Get.offAll(
+                                    () => const MainBottomNavBarScreen());
+                              }
                             } else {
                               Get.showSnackbar(GetSnackBar(
                                 title: 'OTP verification failed!',

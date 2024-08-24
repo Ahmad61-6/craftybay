@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/create_review_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
@@ -17,5 +18,6 @@ class ControllerBinder extends Bindings {
     Get.put(OtpVerificationController());
     Get.put(ReadProfileDataController());
     Get.put(CompleteProfileController());
+    Get.put(AuthController());
   }
 }
