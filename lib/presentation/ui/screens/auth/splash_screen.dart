@@ -15,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     moveToNextScreen();
   }
@@ -25,8 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool isLoggedIn = await Get.find<AuthController>().isLoggedIn();
     if (isLoggedIn) {
       Get.offAll(() => const MainBottomNavBarScreen());
+    } else {
+      Get.offAll(const VerifyEmailScreen());
     }
-    Get.offAll(const VerifyEmailScreen());
   }
 
   @override
