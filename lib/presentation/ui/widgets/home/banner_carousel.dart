@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:crafty_bay/data/models/banner_item.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,10 @@ class BannerCarousel extends StatefulWidget {
   const BannerCarousel({
     super.key,
     this.height,
+    required this.bannerList,
   });
   final double? height;
-
+  final List<BannerItem> bannerList;
   @override
   State<BannerCarousel> createState() => _BannerCarouselState();
 }
@@ -30,7 +32,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
             viewportFraction: 1,
             autoPlay: true,
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.bannerList.map((banner) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(

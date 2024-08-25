@@ -1,4 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/home_banner_contorller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/categories_screen.dart';
@@ -37,7 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              const BannerCarousel(),
+              SizedBox(
+                height: 220,
+                child: GetBuilder<HomeBannerController>(
+                    builder: (homeBannerController) {
+                  return Visibility(
+                      child: BannerCarousel(
+                    bannerList:
+                        homeBannerController.bannerListModel.bannerList ?? [],
+                  ));
+                }),
+              ),
               const SizedBox(
                 height: 16,
               ),

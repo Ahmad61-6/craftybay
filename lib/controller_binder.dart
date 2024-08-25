@@ -1,6 +1,7 @@
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/create_review_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/home_banner_contorller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/number_of_items_counter_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/otp_verification_controller.dart';
@@ -19,5 +20,6 @@ class ControllerBinder extends Bindings {
     Get.put(ReadProfileDataController());
     Get.put(CompleteProfileController());
     Get.put(AuthController());
+    Get.put(HomeBannerController());
   }
 }

@@ -161,4 +161,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _mobileNumberTEController.dispose();
+    _cityTEController.dispose();
+    _shippingAddressTEController.dispose();
+
+    super.dispose();
+  }
 }
