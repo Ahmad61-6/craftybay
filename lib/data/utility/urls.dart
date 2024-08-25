@@ -6,4 +6,5 @@ class Urls {
   static String readProfileData = '$_baseUrl/ReadProfile';
   static String createProfile = '$_baseUrl/CreateProfile';
   static String homeBanner = '$_baseUrl/ListProductSlider';
+  static String categoryList = '$_baseUrl/CategoryList';
 }

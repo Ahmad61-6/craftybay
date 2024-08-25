@@ -1,7 +1,7 @@
 import 'package:crafty_bay/presentation/state_holders/send_email_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_otp_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
-import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:crafty_bay/presentation/ui/widgets/shimmer_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -70,7 +70,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                       width: double.infinity,
                       child: Visibility(
                         visible: controller.inProgress == false,
-                        replacement: const CenterCircularProgressIndicator(),
+                        replacement: const ShimmerLoader(),
                         child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {

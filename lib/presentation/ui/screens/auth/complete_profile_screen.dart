@@ -3,7 +3,7 @@ import 'package:crafty_bay/presentation/state_holders/complete_profile_controlle
 import 'package:crafty_bay/presentation/state_holders/otp_verification_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
-import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:crafty_bay/presentation/ui/widgets/shimmer_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -116,7 +116,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                       width: double.infinity,
                       child: Visibility(
                         visible: completeProfileController.inProgress == false,
-                        replacement: const CenterCircularProgressIndicator(),
+                        replacement: const ShimmerLoader(),
                         child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {

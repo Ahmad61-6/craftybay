@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/data/models/banner_item.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
-import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 
 class BannerCarousel extends StatefulWidget {
@@ -35,18 +34,55 @@ class _BannerCarouselState extends State<BannerCarousel> {
           items: widget.bannerList.map((banner) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                    decoration: BoxDecoration(
+                return Stack(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: AppColors.primaryColor),
-                    child: Center(
-                      child: Image.asset(
-                        AssetsPath.shoe,
-                        height: 100,
+                        color: AppColors.primaryColor,
+                        image: DecorationImage(
+                          image: NetworkImage(banner.image ?? ''),
+                        ),
                       ),
-                    ));
+                      alignment: Alignment.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: Text(
+                              banner.title ?? '',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          SizedBox(
+                            width: 100,
+                            child: Text(
+                              banner.shortDes ?? '',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
               },
             );
           }).toList(),
@@ -60,7 +96,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 5; i++)
+                  for (int i = 0; i < widget.bannerList.length; i++)
                     Container(
                       height: 12,
                       width: 12,

@@ -9,6 +9,7 @@ import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/banner_carousel.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/section_title.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_card_item.dart';
+import 'package:crafty_bay/presentation/ui/widgets/shimmer_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,10 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: GetBuilder<HomeBannerController>(
                     builder: (homeBannerController) {
                   return Visibility(
+                      visible: homeBannerController.inProgress == false,
+                      replacement: const ShimmerLoader(),
                       child: BannerCarousel(
-                    bannerList:
-                        homeBannerController.bannerListModel.bannerList ?? [],
-                  ));
+                        bannerList:
+                            homeBannerController.bannerListModel.bannerList ??
+                                [],
+                      ));
                 }),
               ),
               const SizedBox(
