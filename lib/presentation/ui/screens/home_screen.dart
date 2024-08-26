@@ -1,4 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/category_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/home_banner_contorller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
@@ -44,13 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: GetBuilder<HomeBannerController>(
                     builder: (homeBannerController) {
                   return Visibility(
-                      visible: homeBannerController.inProgress == false,
-                      replacement: const ShimmerLoader(),
-                      child: BannerCarousel(
-                        bannerList:
-                            homeBannerController.bannerListModel.bannerList ??
-                                [],
-                      ));
+                    visible: homeBannerController.inProgress == false,
+                    replacement: const ShimmerLoader(),
+                    child: BannerCarousel(
+                      bannerList:
+                          homeBannerController.bannerListModel.bannerList ?? [],
+                    ),
+                  );
                 }),
               ),
               const SizedBox(
@@ -97,20 +98,32 @@ class _HomeScreenState extends State<HomeScreen> {
   SizedBox get categoryList {
     return SizedBox(
       height: 130,
-      child: ListView.separated(
-        primary: false,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return const CategoryItem();
-        },
-        separatorBuilder: (_, __) {
-          return const SizedBox(
-            width: 20,
-          );
-        },
-      ),
+      child: GetBuilder<CategoryController>(builder: (categoryController) {
+        return Visibility(
+          visible: categoryController.inProgress == false,
+          replacement: const Center(
+            child: LinearProgressIndicator(),
+          ),
+          child: ListView.separated(
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount:
+                categoryController.categoryListModel.categoryList?.length ?? 0,
+            itemBuilder: (context, index) {
+              return CategoryItem(
+                category:
+                    categoryController.categoryListModel.categoryList![index],
+              );
+            },
+            separatorBuilder: (_, __) {
+              return const SizedBox(
+                width: 20,
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 

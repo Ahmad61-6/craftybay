@@ -2,8 +2,9 @@ import 'package:crafty_bay/presentation/ui/widgets/product_card_item.dart';
 import 'package:flutter/material.dart';
 
 class ProductListScreen extends StatefulWidget {
-  final String? category;
-  const ProductListScreen({super.key, this.category});
+  final String? categoryTitle;
+  final int? categoryId;
+  const ProductListScreen({super.key, this.categoryTitle, this.categoryId});
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
@@ -14,7 +15,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category ?? 'Products'),
+        title: Text(widget.categoryTitle ?? 'Products'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
