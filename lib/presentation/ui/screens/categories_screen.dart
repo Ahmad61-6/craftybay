@@ -1,4 +1,6 @@
+import 'package:crafty_bay/presentation/state_holders/category_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,18 +33,35 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             'Categories',
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(12),
-          child: GridView.builder(
-              itemCount: 16,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 8,
-                  childAspectRatio: 0.98),
-              itemBuilder: (context, index) {
-                return const FittedBox(child: Text(''));
-              }),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            Get.find<CategoryController>().getCategoryList();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: GetBuilder<CategoryController>(builder: (controller) {
+              return Visibility(
+                visible: controller.inProgress == false,
+                replacement: const LinearProgressIndicator(),
+                child: GridView.builder(
+                    itemCount:
+                        controller.categoryListModel.categoryList!.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 0.98),
+                    itemBuilder: (context, index) {
+                      return FittedBox(
+                        child: CategoryItem(
+                            category: controller
+                                .categoryListModel.categoryList![index]),
+                      );
+                    }),
+              );
+            }),
+          ),
         ),
       ),
     );
