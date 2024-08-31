@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ReviewsScreen extends StatefulWidget {
-  const ReviewsScreen({super.key});
+  const ReviewsScreen({super.key, required this.productId});
+
+  final int productId;
 
   @override
   State<ReviewsScreen> createState() => _ReviewsScreenState();

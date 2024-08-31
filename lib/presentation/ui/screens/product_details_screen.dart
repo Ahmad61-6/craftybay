@@ -1,3 +1,5 @@
+import 'package:crafty_bay/data/models/product_details_data.dart';
+import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_review/reviews_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/custom_product_item_count.dart';
@@ -8,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({super.key, required this.productID});
+  final int productID;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -23,32 +26,56 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Colors.brown
   ];
   List<String> sizes = ['X', 'XL', '2L', 'L'];
-  Color _selectedColor = Colors.purple;
+  Color? _selectedColor;
+  String? _selectedSize;
+
+  @override
+  void initState() {
+    super.initState();
+    Get.find<ProductDetailsController>()
+        .getProductDetails(productId: widget.productID);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const ProductImageCarousel(),
-                  productDetailsBody,
-                ],
+      body: GetBuilder<ProductDetailsController>(
+          builder: (productDetailsController) {
+        return Visibility(
+          visible: productDetailsController.inProgress == false,
+          replacement: const LinearProgressIndicator(),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ProductImageCarousel(
+                        urls: [
+                          productDetailsController.productDetails.img1 ?? '',
+                          productDetailsController.productDetails.img2 ?? '',
+                          productDetailsController.productDetails.img3 ?? '',
+                          productDetailsController.productDetails.img4 ?? '',
+                        ],
+                      ),
+                      productDetailsBody(
+                          productDetailsController.productDetails),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              priceAndAddToCartSection,
+            ],
           ),
-          priceAndAddToCartSection,
-        ],
-      ),
+        );
+      }),
     );
   }
 
-  Padding get productDetailsBody {
+  Padding productDetailsBody(ProductDetailsData productDetails) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -57,9 +84,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Happy New Year Special Deal\nSave 30%',
-                style: TextStyle(
+              Text(
+                productDetails.product?.title ?? '',
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -67,7 +94,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               CustomProductItemCount(),
             ],
           ),
-          ratingAndReview,
+          ratingAndReview(productDetails),
           const SizedBox(
             height: 8,
           ),
@@ -82,7 +109,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 8,
           ),
           ColorSelector(
-              colors: colors,
+              colors: productDetails.color
+                      ?.split(',')
+                      .map((e) => getColorFromString(e))
+                      .toList() ??
+                  [],
               onChange: (selectedColor) {
                 _selectedColor = selectedColor;
               }),
@@ -100,8 +131,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 8,
           ),
           SizeSelector(
-            sizes: sizes,
-            onChange: (selectedSize) {},
+            sizes: productDetails.size?.split(',') ?? [],
+            onChange: (selectedSize) {
+              _selectedSize = selectedSize;
+            },
           ),
           const SizedBox(
             height: 16,
@@ -114,17 +147,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.black54),
           ),
           Text(
-            'Agile is an approach to project management that centers around incremental and iterative steps to completing projects. '
-            'The incremental parts of a project are carried out in short-term development cycles.'
-            ' The approach prioritizes quick delivery, adapting to change, and collaboration rather than top-down management and following a set plan.',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            '${productDetails.des}',
+            style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
           )
         ],
       ),
     );
   }
 
-  Row get ratingAndReview {
+  Row ratingAndReview(ProductDetailsData ratingAndReviewData) {
     return Row(
       children: [
         const Icon(
@@ -135,9 +166,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         const SizedBox(
           width: 2,
         ),
-        const Text(
-          '4.8',
-          style: TextStyle(
+        Text(
+          '${ratingAndReviewData.product!.star}',
+          style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black45),
         ),
         const SizedBox(
@@ -145,7 +176,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         TextButton(
           onPressed: () {
-            Get.to(() => const ReviewsScreen());
+            Get.to(
+              () => ReviewsScreen(
+                productId: ratingAndReviewData.id!,
+              ),
+            );
           },
           child: const Text(
             'Review',
@@ -223,5 +258,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ],
       ),
     );
+  }
+
+  Color getColorFromString(String color) {
+    color = color.toLowerCase();
+    if (color == 'red') {
+      return Colors.red;
+    } else if (color == 'white') {
+      return Colors.white;
+    } else if (color == 'green') {
+      return Colors.green;
+    }
+    return Colors.grey;
+  }
+
+  String colorToString(Color color) {
+    if (color == Colors.red) {
+      return 'Red';
+    } else if (color == Colors.white) {
+      return 'White';
+    } else if (color == Colors.green) {
+      return 'Green';
+    }
+    return 'Grey';
   }
 }

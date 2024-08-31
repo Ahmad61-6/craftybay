@@ -9,6 +9,7 @@ import 'package:crafty_bay/presentation/state_holders/number_of_items_counter_co
 import 'package:crafty_bay/presentation/state_holders/otp_verification_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/read_profile_data_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/send_email_otp_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
@@ -31,5 +32,6 @@ class ControllerBinder extends Bindings {
     Get.put(SpecialProductController());
     Get.put(NewProductController());
     Get.put(ProductController());
+    Get.put(ProductDetailsController());
   }
 }

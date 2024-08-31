@@ -16,7 +16,9 @@ class ProductCardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => const ProductDetailsScreen());
+        Get.to(() => ProductDetailsScreen(
+              productID: product.id!,
+            ));
       },
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
