@@ -26,14 +26,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Colors.brown
   ];
   List<String> sizes = ['X', 'XL', '2L', 'L'];
-  Color? _selectedColor;
+  String? _selectedColor;
   String? _selectedSize;
 
   @override
   void initState() {
     super.initState();
-    Get.find<ProductDetailsController>()
-        .getProductDetails(productId: widget.productID);
+    Get.find<ProductDetailsController>().getProductDetails(widget.productID);
   }
 
   @override
@@ -44,32 +43,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: GetBuilder<ProductDetailsController>(
           builder: (productDetailsController) {
-        return Visibility(
-          visible: productDetailsController.inProgress == false,
-          replacement: const LinearProgressIndicator(),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ProductImageCarousel(
-                        urls: [
-                          productDetailsController.productDetails.img1 ?? '',
-                          productDetailsController.productDetails.img2 ?? '',
-                          productDetailsController.productDetails.img3 ?? '',
-                          productDetailsController.productDetails.img4 ?? '',
-                        ],
-                      ),
-                      productDetailsBody(
-                          productDetailsController.productDetails),
-                    ],
-                  ),
+        if (productDetailsController.inProgress) {
+          return const LinearProgressIndicator();
+        }
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ProductImageCarousel(
+                      urls: [
+                        productDetailsController.productDetails.img1 ?? '',
+                        productDetailsController.productDetails.img2 ?? '',
+                        productDetailsController.productDetails.img3 ?? '',
+                        productDetailsController.productDetails.img4 ?? '',
+                      ],
+                    ),
+                    productDetailsBody(productDetailsController.productDetails),
+                  ],
                 ),
               ),
-              priceAndAddToCartSection,
-            ],
-          ),
+            ),
+            priceAndAddToCartSection,
+          ],
         );
       }),
     );
@@ -94,7 +91,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               CustomProductItemCount(),
             ],
           ),
-          ratingAndReview(productDetails),
+          ratingAndReview(productDetails.product?.star ?? 0),
           const SizedBox(
             height: 8,
           ),
@@ -115,7 +112,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       .toList() ??
                   [],
               onChange: (selectedColor) {
-                _selectedColor = selectedColor;
+                _selectedColor = selectedColor.toString();
               }),
           const SizedBox(
             height: 16,
@@ -147,7 +144,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.black54),
           ),
           Text(
-            '${productDetails.des}',
+            productDetails.des ?? '',
             style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
           )
         ],
@@ -155,7 +152,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row ratingAndReview(ProductDetailsData ratingAndReviewData) {
+  Row ratingAndReview(double rating) {
     return Row(
       children: [
         const Icon(
@@ -167,7 +164,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           width: 2,
         ),
         Text(
-          '${ratingAndReviewData.product!.star}',
+          rating.toStringAsPrecision(2),
           style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black45),
         ),
@@ -178,7 +175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           onPressed: () {
             Get.to(
               () => ReviewsScreen(
-                productId: ratingAndReviewData.id!,
+                productId: 1,
               ),
             );
           },
@@ -260,26 +257,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Color getColorFromString(String color) {
-    color = color.toLowerCase();
-    if (color == 'red') {
-      return Colors.red;
-    } else if (color == 'white') {
-      return Colors.white;
-    } else if (color == 'green') {
-      return Colors.green;
-    }
-    return Colors.grey;
-  }
-
-  String colorToString(Color color) {
-    if (color == Colors.red) {
-      return 'Red';
-    } else if (color == Colors.white) {
-      return 'White';
-    } else if (color == Colors.green) {
-      return 'Green';
-    }
-    return 'Grey';
+  Color getColorFromString(String colorCode) {
+    String code = colorCode.replaceAll('#', '');
+    String hexCode = 'FF$code';
+    return Color(int.parse('0x$hexCode'));
   }
 }

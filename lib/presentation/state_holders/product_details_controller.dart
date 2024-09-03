@@ -1,28 +1,31 @@
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/data/models/product_details_model.dart';
 import 'package:crafty_bay/data/models/response_data.dart';
-import 'package:crafty_bay/data/service/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+
+import '../../data/service/network_caller.dart';
 
 class ProductDetailsController extends GetxController {
   bool _inProgress = false;
-  bool get inProgress => _inProgress;
-
-  String _errorMessage = '';
-  String get errorMessage => _errorMessage;
 
   ProductDetailsModel _productDetailsModel = ProductDetailsModel();
-  ProductDetailsData get productDetails =>
-      _productDetailsModel.productDetails!.first;
 
-  Future<bool> getProductDetails({required int productId}) async {
+  String _errorMessage = '';
+
+  bool get inProgress => _inProgress;
+
+  ProductDetailsData get productDetails =>
+      _productDetailsModel.productDetailsDataList!.first;
+
+  String get errorMessage => _errorMessage;
+
+  Future<bool> getProductDetails(int productID) async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    final ResponseData response =
-        await NetworkCaller().getRequest(Urls.productDetails(productId));
-    _inProgress = false;
+    final ResponseData response = await NetworkCaller()
+        .getRequest(Urls.productDetailsDataList(productID));
     if (response.isSuccess) {
       _productDetailsModel =
           ProductDetailsModel.fromJson(response.responseData);
@@ -30,6 +33,7 @@ class ProductDetailsController extends GetxController {
     } else {
       _errorMessage = response.errorMessage;
     }
+    _inProgress = false;
     update();
     return isSuccess;
   }
