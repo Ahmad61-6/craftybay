@@ -1,5 +1,8 @@
 import 'package:crafty_bay/data/models/product_details_data.dart';
+import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_review/reviews_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/custom_product_item_count.dart';
@@ -91,7 +94,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               CustomProductItemCount(),
             ],
           ),
-          ratingAndReview(productDetails.product?.star ?? 0),
+          ratingAndReview(
+              productDetails.product?.star ?? 0, productDetails.productId ?? 0),
           const SizedBox(
             height: 8,
           ),
@@ -152,7 +156,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row ratingAndReview(double rating) {
+  Row ratingAndReview(double rating, int productId) {
     return Row(
       children: [
         const Icon(
@@ -175,7 +179,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           onPressed: () {
             Get.to(
               () => ReviewsScreen(
-                productId: 1,
+                productId: productId,
               ),
             );
           },
@@ -220,10 +224,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Price',
                 style: TextStyle(
                     color: Colors.black45,
@@ -231,8 +235,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                '\$1,000',
-                style: TextStyle(
+                '\$${Get.find<ProductDetailsController>().productDetails.product?.price}',
+                style: const TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -242,15 +246,63 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 120,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'Add To Cart',
-                style: TextStyle(
-                  fontSize: 14,
+            child:
+                GetBuilder<AddToCartController>(builder: (addToCartController) {
+              return Visibility(
+                visible: addToCartController.inProgress == false,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ),
-            ),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_selectedColor != null && _selectedSize != null) {
+                      if (Get.find<AuthController>().isTokenNotNull) {
+                        bool response = await addToCartController.addToCart(
+                            widget.productID, _selectedColor!, _selectedSize!);
+                        if (response) {
+                          Get.showSnackbar(
+                            const GetSnackBar(
+                              message: 'Product has been added to cart',
+                              backgroundColor: Colors.greenAccent,
+                              snackPosition: SnackPosition.TOP,
+                              dismissDirection: DismissDirection.up,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          Get.showSnackbar(
+                            GetSnackBar(
+                              message: addToCartController.errorMessage,
+                              backgroundColor: Colors.red,
+                              snackPosition: SnackPosition.TOP,
+                              dismissDirection: DismissDirection.up,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      } else {
+                        Get.to(() => const VerifyEmailScreen());
+                      }
+                    } else {
+                      Get.showSnackbar(
+                        const GetSnackBar(
+                          message: 'Please select Color and Size',
+                          duration: Duration(seconds: 2),
+                          snackPosition: SnackPosition.TOP,
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    'Add To Cart',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              );
+            }),
           ),
         ],
       ),
