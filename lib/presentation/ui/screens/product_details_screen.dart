@@ -29,7 +29,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Colors.brown
   ];
   List<String> sizes = ['X', 'XL', '2L', 'L'];
-  String? _selectedColor;
+  Color? _selectedColor;
   String? _selectedSize;
 
   @override
@@ -116,7 +116,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       .toList() ??
                   [],
               onChange: (selectedColor) {
-                _selectedColor = selectedColor.toString();
+                _selectedColor = selectedColor;
+                print(_selectedColor);
               }),
           const SizedBox(
             height: 16,
@@ -156,7 +157,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row ratingAndReview(double rating, int productId) {
+  Row ratingAndReview(int rating, int productId) {
     return Row(
       children: [
         const Icon(
@@ -257,8 +258,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   onPressed: () async {
                     if (_selectedColor != null && _selectedSize != null) {
                       if (Get.find<AuthController>().isTokenNotNull) {
+                        final String stringColor =
+                            colorToString(_selectedColor!);
                         bool response = await addToCartController.addToCart(
-                            widget.productID, _selectedColor!, _selectedSize!);
+                            widget.productID, stringColor, _selectedSize!);
                         if (response) {
                           Get.showSnackbar(
                             const GetSnackBar(
@@ -309,9 +312,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Color getColorFromString(String colorCode) {
-    String code = colorCode.replaceAll('#', '');
-    String hexCode = 'FF$code';
-    return Color(int.parse('0x$hexCode'));
+  Color getColorFromString(String color) {
+    color = color.toLowerCase();
+    if (color == 'red') {
+      return Colors.red;
+    } else if (color == 'green') {
+      return Colors.green;
+    } else if (color == 'white') {
+      return Colors.white;
+    } else {
+      return Colors.grey;
+    }
+  }
+
+  // Color getColorFromString(String colorCode) {
+  //   String code = colorCode.replaceAll('#', '');
+  //   String hexCode = 'FF$code';
+  //   return Color(int.parse('0x$hexCode'));
+  // }
+
+  String colorToString(Color color) {
+    if (color == Colors.red) {
+      return 'Red';
+    } else if (color == Colors.green) {
+      return 'Green';
+    } else if (color == Colors.white) {
+      return 'White';
+    } else {
+      return 'Grey';
+    }
   }
 }

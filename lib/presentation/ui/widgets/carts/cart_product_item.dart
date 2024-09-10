@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 class CartProductItem extends StatefulWidget {
   const CartProductItem({
     super.key,
+    // required this.cartItem,
   });
+  // final CartItem cartItem;
 
   @override
   State<CartProductItem> createState() => _CartProductItemState();

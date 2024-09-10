@@ -9,7 +9,7 @@ class NetworkCaller {
   Future<ResponseData> getRequest(String url, {String? token}) async {
     log(url);
     final Response response = await get(Uri.parse(url), headers: {
-      'token': token.toString(),
+      'token': (token ?? AuthController.token).toString(),
       'Content-type': 'application/json'
     });
     log(response.statusCode.toString());
@@ -29,6 +29,10 @@ class NetworkCaller {
             responseData: decodeResponse,
             errorMessage: decodeResponse['data'] ?? 'Something went wrong');
       }
+    } else if (response.statusCode == 401) {
+      AuthController.goToLogIn();
+      return ResponseData(
+          isSuccess: false, statusCode: response.statusCode, responseData: '');
     } else {
       return ResponseData(
           isSuccess: false, statusCode: response.statusCode, responseData: '');
@@ -62,6 +66,10 @@ class NetworkCaller {
             responseData: decodeResponse,
             errorMessage: decodeResponse['data'] ?? 'Something went wrong');
       }
+    } else if (response.statusCode == 401) {
+      AuthController.goToLogIn();
+      return ResponseData(
+          isSuccess: false, statusCode: response.statusCode, responseData: '');
     } else {
       return ResponseData(
           isSuccess: false, statusCode: response.statusCode, responseData: '');

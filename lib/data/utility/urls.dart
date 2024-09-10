@@ -1,5 +1,5 @@
 class Urls {
-  static const String _baseUrl = 'https://craftybay.teamrabbil.com/api';
+  static const String _baseUrl = 'http://ecom-api.teamrabbil.com/api';
   static String sendEmailOtp(email) => '$_baseUrl/UserLogin/$email';
   static String verifyOtp(String email, String otp) =>
       '$_baseUrl/VerifyLogin/$email/$otp';
@@ -15,4 +15,5 @@ class Urls {
   static String productDetailsDataList(int productId) =>
       '$_baseUrl/ProductDetailsById/$productId';
   static String addToCart = '$_baseUrl/CreateCartList';
+  static String cartList = '$_baseUrl/CartList';
 }

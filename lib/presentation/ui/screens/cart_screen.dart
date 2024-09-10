@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/carts/cart_product_item.dart';
@@ -12,6 +13,14 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<CartListController>().getCartList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -29,28 +38,36 @@ class _CartScreenState extends State<CartScreen> {
             },
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        children: [
-                          CartProductItem(),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(
-                        height: 4,
-                      ),
-                  itemCount: 4),
-            ),
-            totalPriceAndCheckoutSection,
-          ],
-        ),
+        body: GetBuilder<CartListController>(builder: (cartListController) {
+          if (cartListController.inProgress == false) {
+            const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Column(
+                          children: [
+                            CartProductItem(),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(
+                          height: 4,
+                        ),
+                    itemCount:
+                        cartListController.cartList.cartItemList?.length ?? 0),
+              ),
+              totalPriceAndCheckoutSection,
+            ],
+          );
+        }),
       ),
     );
   }
