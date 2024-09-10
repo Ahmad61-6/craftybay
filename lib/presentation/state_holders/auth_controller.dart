@@ -50,7 +50,6 @@ class AuthController extends GetxController {
   }
 
   static Future<void> goToLogIn() async {
-    await clearAuthData();
     Get.to(() => const VerifyEmailScreen());
   }
 }

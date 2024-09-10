@@ -30,6 +30,7 @@ class NetworkCaller {
             errorMessage: decodeResponse['data'] ?? 'Something went wrong');
       }
     } else if (response.statusCode == 401) {
+      await AuthController.clearAuthData();
       AuthController.goToLogIn();
       return ResponseData(
           isSuccess: false, statusCode: response.statusCode, responseData: '');
@@ -67,6 +68,7 @@ class NetworkCaller {
             errorMessage: decodeResponse['data'] ?? 'Something went wrong');
       }
     } else if (response.statusCode == 401) {
+      await AuthController.clearAuthData();
       AuthController.goToLogIn();
       return ResponseData(
           isSuccess: false, statusCode: response.statusCode, responseData: '');
